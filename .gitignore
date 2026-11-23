@@ -1,0 +1,30 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### Logs & temporaires locaux ###
+*.log
+*.err
+*.log.err
+app-step*.log*
+app-step*.err
+
+### Environnement ###
+.env
+.env.*
+!.env.example
+
+### IDE ###
+.idea/
+*.iws
+*.iml
+*.ipr
+.classpath
+.project
+.settings/
+.vscode/
+*.class
+.DS_Store
+Thumbs.db

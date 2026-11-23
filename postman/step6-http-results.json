@@ -1,0 +1,37 @@
+﻿[
+    {
+        "Test":  "T1 GET /bankAccounts",
+        "Status":  200,
+        "Detail":  "count=10; sample ids=2df7f683-349c-43c5-8b11-169a97471690, ded03666-cbd9-49dd-9dc9-15543c8eedc9, 3be0e258-1ee2-49aa-af0b-a188ce98015e"
+    },
+    {
+        "Test":  "T2 GET /bankAccounts/{id}",
+        "Status":  200,
+        "Detail":  "id=2df7f683-349c-43c5-8b11-169a97471690; balance=51625.59275697595; currency=MAD; type=CURRENT_ACCOUNT; match=True"
+    },
+    {
+        "Test":  "T3 POST /bankAccounts",
+        "Status":  200,
+        "Detail":  "id=7bfed72f-233e-43e2-b0a8-69d7bc3ac8f6; uuidOk=True; balance=15000.0; currency=MAD; type=CURRENT_ACCOUNT; body={\"id\":\"7bfed72f-233e-43e2-b0a8-69d7bc3ac8f6\",\"createdAt\":null,\"balance\":15000.0,\"currency\":\"MAD\",\"type\":\"CURRENT_ACCOUNT\"}"
+    },
+    {
+        "Test":  "T4 PUT currency only",
+        "Status":  200,
+        "Detail":  "currency=EUR; balance=15000.0; balanceUnchanged=True; body={\"id\":\"7bfed72f-233e-43e2-b0a8-69d7bc3ac8f6\",\"createdAt\":null,\"balance\":15000.0,\"currency\":\"EUR\",\"type\":\"CURRENT_ACCOUNT\"}"
+    },
+    {
+        "Test":  "T5 PUT balance=0",
+        "Status":  200,
+        "Detail":  "balance=0.0; isZero=True; currencyStillEur=True; body={\"id\":\"7bfed72f-233e-43e2-b0a8-69d7bc3ac8f6\",\"createdAt\":null,\"balance\":0.0,\"currency\":\"EUR\",\"type\":\"CURRENT_ACCOUNT\"}"
+    },
+    {
+        "Test":  "T6 DELETE /bankAccounts/{id}",
+        "Status":  200,
+        "Detail":  "deletedId=7bfed72f-233e-43e2-b0a8-69d7bc3ac8f6; gone=true; subsequent GET status=500; gone=True"
+    },
+    {
+        "Test":  "T7 GET nonexistent id",
+        "Status":  500,
+        "Detail":  "{\"timestamp\":\"2026-11-22T13:44:36.389+00:00\",\"status\":500,\"error\":\"Internal Server Error\",\"path\":\"/bankAccounts/00000000-0000-0000-0000-000000000000\"}"
+    }
+]

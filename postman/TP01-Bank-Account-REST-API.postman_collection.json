@@ -1,0 +1,301 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "TP01 - Bank Account REST API",
+    "description": "Collection importable pour l'étape 6 du TP Mohamed YOUSSFI.\nExécutée réellement via PowerShell Invoke-WebRequest (Postman non installé sur la machine).\nbaseUrl = http://localhost:8081",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "accountId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1. GET all bankAccounts",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/bankAccounts",
+          "host": ["{{baseUrl}}"],
+          "path": ["bankAccounts"]
+        },
+        "description": "Liste les comptes initialisés (10 attendus au démarrage)."
+      },
+      "response": [
+        {
+          "name": "Example 200 - list of 10",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/bankAccounts",
+              "host": ["{{baseUrl}}"],
+              "path": ["bankAccounts"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "[\n  {\n    \"id\": \"2df7f683-349c-43c5-8b11-169a97471690\",\n    \"createdAt\": \"2026-11-22T13:44:10.000+00:00\",\n    \"balance\": 51625.59275697595,\n    \"currency\": \"MAD\",\n    \"type\": \"CURRENT_ACCOUNT\"\n  }\n]"
+        }
+      ]
+    },
+    {
+      "name": "2. GET bankAccount by id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/bankAccounts/{{accountId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["bankAccounts", "{{accountId}}"]
+        },
+        "description": "Récupère un compte par ID. Renseigner accountId avec un ID réel de la liste."
+      },
+      "response": []
+    },
+    {
+      "name": "3. POST create bankAccount",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "  var json = pm.response.json();",
+              "  pm.collectionVariables.set('accountId', json.id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"balance\": 15000,\n  \"currency\": \"MAD\",\n  \"type\": \"CURRENT_ACCOUNT\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/bankAccounts",
+          "host": ["{{baseUrl}}"],
+          "path": ["bankAccounts"]
+        },
+        "description": "Crée un compte ; UUID généré si id absent."
+      },
+      "response": [
+        {
+          "name": "Example 200 - created",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"balance\": 15000,\n  \"currency\": \"MAD\",\n  \"type\": \"CURRENT_ACCOUNT\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bankAccounts",
+              "host": ["{{baseUrl}}"],
+              "path": ["bankAccounts"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"id\": \"7bfed72f-233e-43e2-b0a8-69d7bc3ac8f6\",\n  \"createdAt\": null,\n  \"balance\": 15000.0,\n  \"currency\": \"MAD\",\n  \"type\": \"CURRENT_ACCOUNT\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "4. PUT update currency only",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"currency\": \"EUR\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/bankAccounts/{{accountId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["bankAccounts", "{{accountId}}"]
+        },
+        "description": "Mise à jour partielle : change currency sans écraser balance."
+      },
+      "response": [
+        {
+          "name": "Example 200 - currency EUR balance kept",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currency\": \"EUR\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bankAccounts/{{accountId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["bankAccounts", "{{accountId}}"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"id\": \"7bfed72f-233e-43e2-b0a8-69d7bc3ac8f6\",\n  \"createdAt\": null,\n  \"balance\": 15000.0,\n  \"currency\": \"EUR\",\n  \"type\": \"CURRENT_ACCOUNT\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "5. PUT balance to zero",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"balance\": 0\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/bankAccounts/{{accountId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["bankAccounts", "{{accountId}}"]
+        },
+        "description": "Vérifie que balance=0 est accepté (mise à jour partielle)."
+      },
+      "response": [
+        {
+          "name": "Example 200 - balance 0",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"balance\": 0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bankAccounts/{{accountId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["bankAccounts", "{{accountId}}"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"id\": \"7bfed72f-233e-43e2-b0a8-69d7bc3ac8f6\",\n  \"createdAt\": null,\n  \"balance\": 0.0,\n  \"currency\": \"EUR\",\n  \"type\": \"CURRENT_ACCOUNT\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "6. DELETE bankAccount",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/bankAccounts/{{accountId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["bankAccounts", "{{accountId}}"]
+        },
+        "description": "Supprime le compte créé pendant les tests."
+      },
+      "response": []
+    },
+    {
+      "name": "7. GET nonexistent id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/bankAccounts/00000000-0000-0000-0000-000000000000",
+          "host": ["{{baseUrl}}"],
+          "path": ["bankAccounts", "00000000-0000-0000-0000-000000000000"]
+        },
+        "description": "Documente le comportement actuel : RuntimeException → HTTP 500 (non modifié à l'étape 6)."
+      },
+      "response": [
+        {
+          "name": "Example 500 - not found",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/bankAccounts/00000000-0000-0000-0000-000000000000",
+              "host": ["{{baseUrl}}"],
+              "path": ["bankAccounts", "00000000-0000-0000-0000-000000000000"]
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"timestamp\": \"2026-11-22T13:44:36.389+00:00\",\n  \"status\": 500,\n  \"error\": \"Internal Server Error\",\n  \"path\": \"/bankAccounts/00000000-0000-0000-0000-000000000000\"\n}"
+        }
+      ]
+    }
+  ]
+}
